@@ -1,0 +1,23 @@
+import uvicorn
+from fastapi import FastAPI
+import Pacientes.views as views
+from Pacientes.models import db 
+
+def create_app():
+    app = FastAPI(
+        docs_url="/pacientes/docs",
+        openapi_url="/pacientes/openapi.json",
+        title="Pacientes API",
+        redoc_url=None,
+    )
+    
+    @app.on_event("startup")
+    async def on_startup():
+        await db.init_db()
+    
+    app.include_router(views.router)
+    return app
+
+if __name__ == "__main__":
+    app = create_app()
+    uvicorn.run(app, host="0.0.0.0", port=8080)
