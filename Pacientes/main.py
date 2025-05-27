@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
-import Pacientes.views as views
-from Pacientes.models import db 
+import views as views
+from models import db 
 
 def create_app():
     app = FastAPI(

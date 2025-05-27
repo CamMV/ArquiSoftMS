@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from Pacientes.views import pacientes_view
+from views import pacientes_view
 
 API_PREFIX = "/api"
 router = APIRouter()

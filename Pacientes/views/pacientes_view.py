@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, Body
-import Pacientes.logic.pacientes_logic as logic
-from Pacientes.models.schemas import PacienteCreate, PacienteRead
-from Pacientes.models.models import Paciente
+import logic.pacientes_logic as logic
+from models.schemas import PacienteCreate, PacienteRead
+from models.models import Paciente
 
 router = APIRouter()
 ENDPOINT_NAME = "/pacientes"
