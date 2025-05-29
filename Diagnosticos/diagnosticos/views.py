@@ -26,7 +26,7 @@ def diagnostico_detail(request, diagnostico_id):
     })
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["GET", "POST"])
 def diagnostico_create(request):
     if request.method == "POST":
         data = json.loads(request.body)
