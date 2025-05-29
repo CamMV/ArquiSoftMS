@@ -4,5 +4,5 @@ from . import models
 
 class EventoSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'paciente', 'diagnostico', 'tipo', 'descripcion', 'fecha',)
+        fields = ('id', 'tipo', 'descripcion', 'fecha',)
         model = models.Evento
