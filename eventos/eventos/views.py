@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from .models import Evento
 from hospital.settings import PATH_PACIENTES
 from .serializers import EventoSerializer
+from rest_framework.decorators import action
+from rest_framework.renderers import TemplateHTMLRenderer
+from django.shortcuts import redirect
 
 # URL del microservicio de pacientes
 
@@ -29,7 +32,33 @@ class EventoViewSet(viewsets.ModelViewSet):
         data = serializer.data
         data['paciente'] = paciente_data
         return Response(data)
+    
+    @action(detail=False, methods=['get'], renderer_classes=[TemplateHTMLRenderer])
+    def nuevo(self, request):
+        # le pasamos un serializer vacío al template
+        return Response(
+            {'serializer': EventoSerializer()},
+            template_name='Evento/eventoCreate.html'
+        )
 
+    # ——— creación (POST) ———
+    def create(self, request, *args, **kwargs):
+        # si viene de HTML, procesamos el form
+        if request.accepted_renderer.format == 'html':
+            serializer = EventoSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                # una vez creado, redirigimos al listado
+                return redirect('evento-list')
+            # si hay errores, re-renderizamos el form con ellos
+            return Response(
+                {'serializer': serializer},
+                template_name='Evento/eventoCreate.html',
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # para JSON delegamos al comportamiento por defecto
+        return super().create(request, *args, **kwargs)
+    
     def get_paciente(self, paciente_id):
         try:
             response = requests.get(f"{PATH_PACIENTES}{paciente_id}")
