@@ -1,24 +1,44 @@
 {# templates/Evento/evento_form.html #}
 {% extends "base.html" %}
+
 {% block title %}Crear Evento{% endblock %}
 
 {% block content %}
   <h1>Nuevo Evento</h1>
+
+  <!--
+    El form POST va a la URL con name 'evento-list',
+    que en tu ViewSet hace create() para HTML.
+  -->
   <form method="post" action="{% url 'evento-list' %}">
     {% csrf_token %}
     {{ serializer.non_field_errors }}
 
-    <div>
+    <div class="form-group">
       {{ serializer.nombre.label_tag }}<br>
       {{ serializer.nombre }}<br>
       {{ serializer.nombre.errors }}
     </div>
-    <div>
+
+    <div class="form-group">
       {{ serializer.descripcion.label_tag }}<br>
       {{ serializer.descripcion }}<br>
       {{ serializer.descripcion.errors }}
     </div>
-    {# …otros campos… #}
+
+    <div class="form-group">
+      {{ serializer.fecha.label_tag }}<br>
+      {{ serializer.fecha }}<br>
+      {{ serializer.fecha.errors }}
+    </div>
+
+    {# Si tu modelo tiene paciente_id: #}
+    <div class="form-group">
+      {{ serializer.paciente_id.label_tag }}<br>
+      {{ serializer.paciente_id }}<br>
+      {{ serializer.paciente_id.errors }}
+    </div>
+
     <button type="submit" class="btn btn-primary">Crear</button>
   </form>
 {% endblock %}
