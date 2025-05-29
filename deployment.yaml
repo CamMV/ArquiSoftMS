@@ -1,0 +1,197 @@
+# ***************** Universidad de los Andes ***********************
+# ****** Departamento de Ingeniería de Sistemas y Computación ******
+# ********** Arquitectura y diseño de Software - ISIS2503 *********
+#
+# Infraestructura para despliegue de microservicios en GCP
+# Elementos a desplegar:
+# 1. Firewall para la instancia de contenedores y las VM de microservicios
+# 2. Instancia optimizada para contenedores (Container-Optimized OS):
+#    - Contenedor Kong
+#    - 3 contenedores PostgreSQL
+#    - 2 contenedores MongoDB
+# 3. Cuatro instancias VM para los microservicios
+#    - 
+
+resources:
+
+# 1) Firewall para la instancia de contenedores
+- name: msd-container-host-fw
+  type: compute.v1.firewall
+  properties:
+    network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+    priority: 1000
+    direction: INGRESS
+    sourceRanges:
+    - 0.0.0.0/0
+    targetTags:
+    - msd-container-host
+    allowed:
+    - IPProtocol: TCP
+      ports:
+      - "8000"    # Kong proxy
+      - "5432"    # Postgres #1
+      - "5433"    # Postgres #2
+      - "5434"    # Postgres #3
+      - "27017"   # MongoDB #1
+      - "27018"   # MongoDB #2
+
+# 2) Firewall para las VM de microservicios (puerto 8080 de ejemplo)
+- name: msd-microservices-fw
+  type: compute.v1.firewall
+  properties:
+    network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+    priority: 1000
+    direction: INGRESS
+    sourceRanges:
+    - 0.0.0.0/0
+    targetTags:
+    - msd-microservice
+    allowed:
+    - IPProtocol: TCP
+      ports:
+      - "8080"
+
+# 3) Instancia optimizada para contenedores
+- name: msd-container-host
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-a
+    machineType: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/zones/us-central1-a/machineTypes/e2-medium
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/cos-cloud/global/images/cos-stable-104-18986-120-0
+    networkInterfaces:
+    - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+      networkIP: 10.128.0.81
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    tags:
+      items:
+      - msd-container-host
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          # Crear red Docker interna
+          docker network create microservices-net || true
+
+# 4) Cuatro instancias VM para microservicios
+#    - msd-diagnostic-service
+- name: msd-diagnostic-service
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-a
+    machineType: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/zones/us-central1-a/machineTypes/e2-medium
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240307b
+    networkInterfaces:
+    - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+      networkIP: 10.128.0.90
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    tags:
+      items:
+      - msd-microservice
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          sudo apt-get update
+
+#    - msd-event-service
+- name: msd-event-service
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-a
+    machineType: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/zones/us-central1-a/machineTypes/e2-medium
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240307b
+    networkInterfaces:
+    - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+      networkIP: 10.128.0.91
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    tags:
+      items:
+      - msd-microservice
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          sudo apt-get update
+#    - msd-patient-service
+- name: msd-patient-service
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-a
+    machineType: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/zones/us-central1-a/machineTypes/e2-medium
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240307b
+    networkInterfaces:
+    - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+      networkIP: 10.128.0.92
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    tags:
+      items:
+      - msd-microservice
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          sudo apt-get update
+#    - msd-results-service
+- name: msd-results-service
+  type: compute.v1.instance
+  properties:
+    zone: us-central1-a
+    machineType: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/zones/us-central1-a/machineTypes/e2-medium
+    disks:
+    - deviceName: boot
+      type: PERSISTENT
+      boot: true
+      autoDelete: true
+      initializeParams:
+        sourceImage: https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240307b
+    networkInterfaces:
+    - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
+      networkIP: 10.128.0.93
+      accessConfigs:
+      - name: External NAT
+        type: ONE_TO_ONE_NAT
+    tags:
+      items:
+      - msd-microservice
+    metadata:
+      items:
+      - key: startup-script
+        value: |
+          #!/bin/bash
+          sudo apt-get update
