@@ -49,7 +49,7 @@ class EventoViewSet(viewsets.ModelViewSet):
             if serializer.is_valid():
                 serializer.save()
                 # una vez creado, redirigimos al listado
-                return redirect('evento-list')
+                return redirect('Evento/eventos.html')
             # si hay errores, re-renderizamos el form con ellos
             return Response(
                 {'serializer': serializer},

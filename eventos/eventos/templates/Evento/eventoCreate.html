@@ -1,13 +1,23 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
+{% block title %}Crear Evento{% endblock %}
+
 {% block content %}
-<form method="POST">
-<h2>Crear evento</h2>
+  <h1>Nuevo Evento</h1>
+  <form method="post" action="{% url 'evento-list' %}">
     {% csrf_token %}
-    <br>
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success waves-effect waves-light">Create</button>
-    <button type="button" class="btn btn-primary waves-effect waves-light"
-                                onClick=" window.location.href='/eventos/' ">Back
-    </button>
-</form>
+    {{ serializer.non_field_errors }}
+    <div>
+      {{ serializer.nombre.label_tag }}<br>
+      {{ serializer.nombre }}
+      {{ serializer.nombre.errors }}
+    </div>
+    <div>
+      {{ serializer.descripcion.label_tag }}<br>
+      {{ serializer.descripcion }}
+      {{ serializer.descripcion.errors }}
+    </div>
+    {# añade aquí todos los campos de tu EventoSerializer #}
+    <button type="submit">Crear</button>
+  </form>
 {% endblock %}

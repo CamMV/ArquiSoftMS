@@ -10,5 +10,4 @@ router.register(r'', views.EventoViewSet, basename='evento')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('create/', csrf_exempt(views.EventoViewSet.as_view({'post': 'create'})), name='evento-create'),
 ]
