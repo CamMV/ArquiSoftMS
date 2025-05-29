@@ -3,7 +3,6 @@ from django.utils import timezone
 
 # Create your models here.
 class Evento(models.Model):
-    paciente_id = models.IntegerField()
     tipo = models.CharField(max_length=50, choices=[
         ('MUESTRA_DE_SANGRE', 'Muestra de sangre'),
         ('PRESCRIPCION_DE_MEDICAMENTO', 'Prescripcion de medicamento'),
