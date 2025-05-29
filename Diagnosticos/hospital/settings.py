@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'hospital.wsgi.application'
 MONGO_MAIN_DB = 'diagnosticos_main_db'
 MONGO_SECONDARY_DB = os.getenv('MONGO_SECONDARY_DB', 'diagnosticos_secondary_db')
 MONGO_MAIN_HOST = 'mongodb://10.128.0.81'
-MONGO_MAIN_PORT = '27017'
+MONGO_MAIN_PORT = 27017
 MONGO_SECONDARY_URI = os.getenv('MONGO_SECONDARY_URI', 'mongodb://10.128.0.81:27018')
 
 # Database
