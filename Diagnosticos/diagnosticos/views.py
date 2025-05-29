@@ -38,7 +38,10 @@ def diagnostico_create(request):
         )
         diagnostico.save()
         return redirect('diagnosticos_list')
-    
+    else:
+        return render(request, 'Diagnostico/diagnostico_create.html', {
+            "diagnosticos": Diagnostico.objects.all()
+        })
 
 @require_http_methods(["PUT"])
 def intento_diagnostico(request, diagnostico_id):
