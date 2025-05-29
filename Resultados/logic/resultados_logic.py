@@ -1,3 +1,5 @@
+"""Logic functions for managing 'Resultado' entities."""
+
 from models.models import Resultado
 from models.db import get_db
 from models.schemas import ResultadoCreate, ResultadoRead
