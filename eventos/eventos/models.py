@@ -15,4 +15,4 @@ class Evento(models.Model):
     fecha = models.DateTimeField(default = timezone.now)
 
     def __str__(self):
-        return f"Paciente_id: {self.paciente_id}, Evento: {self.tipo}, Descripción: {self.descripcion}, Fecha: {self.fecha}"
+        return f" Evento: {self.tipo}, Descripción: {self.descripcion}, Fecha: {self.fecha}"
