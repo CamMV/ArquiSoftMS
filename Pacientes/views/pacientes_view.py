@@ -41,6 +41,34 @@ async def get_pacientes(request: Request, db: AsyncSession = Depends(get_db)):
         }
     )
 
+@router.get(
+    "/pacientes/crear",
+    response_class=HTMLResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def create_paciente_form(request: Request):
+    return templates.TemplateResponse(
+        "pacientes_create.html",
+        {"request": request}
+    )
+    
+@router.post(
+    "/pacientes/crear",
+    status_code=status.HTTP_303_SEE_OTHER,  # para redirigir tras POST
+    response_class=RedirectResponse,
+)
+async def create_paciente_submit(
+    request: Request,
+    nombre: str = Form(...),
+    edad: int = Form(...),
+    genero: str = Form(...),
+    db: AsyncSession = Depends(get_db),
+):
+    # Crea el schema y llama a la lógica
+    nuevo = PacienteCreate(nombre=nombre, edad=edad, genero=genero)
+    await logic.create_paciente(paciente=nuevo, db=db)
+    # Redirige de vuelta a la lista
+    return RedirectResponse(url="/pacientes", status_code=status.HTTP_303_SEE_OTHER)
 
 @router.get(
     "/pacientes/{paciente_id}",
@@ -77,32 +105,3 @@ async def update_paciente(paciente_id: int, paciente: PacienteCreate = Body(...)
 async def delete_paciente(paciente_id: int, db: AsyncSession = Depends(get_db)):
     await logic.delete_paciente(paciente_id=paciente_id, db=db)
     return {"detail": "Paciente eliminado exitosamente"}
-
-@router.get(
-    "/pacientes/crear",
-    response_class=HTMLResponse,
-    status_code=status.HTTP_200_OK,
-)
-async def create_paciente_form(request: Request):
-    return templates.TemplateResponse(
-        "pacientes_create.html",
-        {"request": request}
-    )
-    
-@router.post(
-    "/pacientes/crear",
-    status_code=status.HTTP_303_SEE_OTHER,  # para redirigir tras POST
-    response_class=RedirectResponse,
-)
-async def create_paciente_submit(
-    request: Request,
-    nombre: str = Form(...),
-    edad: int = Form(...),
-    genero: str = Form(...),
-    db: AsyncSession = Depends(get_db),
-):
-    # Crea el schema y llama a la lógica
-    nuevo = PacienteCreate(nombre=nombre, edad=edad, genero=genero)
-    await logic.create_paciente(paciente=nuevo, db=db)
-    # Redirige de vuelta a la lista
-    return RedirectResponse(url="/pacientes", status_code=status.HTTP_303_SEE_OTHER)
