@@ -40,9 +40,9 @@ def diagnostico_create(request):
     else:
         return render(request, 'Diagnostico/diagnosticoCreate.html')
 
-@require_http_methods(["PUT"])
+@require_http_methods(["POST"])
 def intento_diagnostico(request, diagnostico_id):
-    if request.method == "PUT":
+    if request.method == "POST":
         try:
             diagnostico = Diagnostico.objects.get(id=diagnostico_id)
         except DoesNotExist:
