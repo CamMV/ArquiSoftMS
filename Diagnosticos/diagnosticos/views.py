@@ -31,10 +31,10 @@ def diagnostico_detail(request, diagnostico_id):
 @require_http_methods(["GET", "POST"])
 def diagnostico_create(request):
     if request.method == "POST":
-        nombre = request.POST.get('nombre')
-        descripcion = request.POST.get('descripcion')
+        resultado = request.POST.get('resultado')
+        diagnostico = request.POST.get('diagnostico')
 
-        diagnostico = Diagnostico(nombre=nombre, descripcion=descripcion, fecha_diagnostico=datetime.now(), version="1.0")
+        diagnostico = Diagnostico(resultado=resultado, diagnostico=diagnostico, fecha_diagnostico=datetime.now(), version="1.0")
         diagnostico.save()
         return redirect('diagnosticos_list')
     else:
