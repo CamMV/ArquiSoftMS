@@ -98,9 +98,6 @@ resources:
     networkInterfaces:
     - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
       networkIP: 10.128.0.90
-      accessConfigs:
-      - name: External NAT
-        type: ONE_TO_ONE_NAT
     tags:
       items:
       - msd-microservice
@@ -127,9 +124,6 @@ resources:
     networkInterfaces:
     - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
       networkIP: 10.128.0.91
-      accessConfigs:
-      - name: External NAT
-        type: ONE_TO_ONE_NAT
     tags:
       items:
       - msd-microservice
@@ -155,9 +149,6 @@ resources:
     networkInterfaces:
     - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
       networkIP: 10.128.0.92
-      accessConfigs:
-      - name: External NAT
-        type: ONE_TO_ONE_NAT
     tags:
       items:
       - msd-microservice
@@ -183,9 +174,6 @@ resources:
     networkInterfaces:
     - network: https://www.googleapis.com/compute/v1/projects/s3-g7-sptint4/global/networks/default
       networkIP: 10.128.0.93
-      accessConfigs:
-      - name: External NAT
-        type: ONE_TO_ONE_NAT
     tags:
       items:
       - msd-microservice
