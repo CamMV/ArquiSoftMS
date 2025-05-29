@@ -3,7 +3,7 @@
 
 <h2>Actualizar Diagnóstico</h2>
 
-<form method="POST" action="{% url 'diagnostico_detail' diagnostico.id %}">
+<form method="POST" action="{% url 'intento_diagnostico' diagnostico.id %}">
     {% csrf_token %}
 
     <label for="diagnostico">Nuevo Diagnóstico</label>

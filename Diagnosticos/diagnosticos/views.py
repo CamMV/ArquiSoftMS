@@ -42,21 +42,19 @@ def diagnostico_create(request):
 
 @require_http_methods(["POST"])
 def intento_diagnostico(request, diagnostico_id):
-    if request.method == "POST":
-        try:
-            diagnostico = Diagnostico.objects.get(id=diagnostico_id)
-        except DoesNotExist:
-            return JsonResponse({"error": "Diagnostico not found"}, status=404)
-        data = json.loads(request.body)
-        intento = IntentoDiagnostico(
-            diagnostico=diagnostico,
-            fecha_intento=data.get('fecha_intento'),
-            cambio=data.get('cambio')
-        )
-        intento.save()
-        return redirect('diagnosticos_list')
-    else:
-        return JsonResponse({"error": "Method not allowed"}, status=405)
+    try:
+        diagnostico = Diagnostico.objects.get(id=diagnostico_id)
+    except Diagnostico.DoesNotExist:
+        return JsonResponse({"error": "Diagnostico not found"}, status=404)
+
+    cambio = request.POST.get('diagnostico')  # usa el nombre del campo en el formulario
+    intento = IntentoDiagnostico(
+        diagnostico=diagnostico,
+        fecha_intento=timezone.now(),
+        cambio=cambio
+    )
+    intento.save()
+    return redirect('diagnosticos_list')
 
 @require_http_methods(["GET"])
 def intentos_diagnosticos_list(request):
