@@ -1,14 +1,11 @@
 from sqlalchemy import Column, Integer, String, Enum as SQLEnum
-from sqlalchemy.orm import declarative_base
+from models.db import Base
 from enum import Enum
 
 class CiudadEnum(str, Enum):
     BOGOTA = "Bogotá"
     MEDELLIN = "Medellín"
     CALI = "Cali"
-    
-
-Base = declarative_base()
 
 class Paciente(Base):
     __tablename__ = 'pacientes'
