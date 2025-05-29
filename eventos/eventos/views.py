@@ -15,10 +15,12 @@ class EventoViewSet(viewsets.ModelViewSet):
     serializer_class = EventoSerializer
 
     def list(self, request, *args, **kwargs):
-        eventos = self.get_queryset()
         if request.accepted_renderer.format == 'html':
-            serializer = self.get_serializer(eventos, many=True)
-            return Response(serializer.data, template_name='Evento/eventos.html')
+            eventos = self.get_queryset()
+            return Response(
+                {'eventos': eventos}, 
+                template_name='Evento/eventos.html'
+            )
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
