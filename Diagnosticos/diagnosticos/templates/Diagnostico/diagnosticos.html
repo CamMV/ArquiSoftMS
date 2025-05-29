@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content">
+    <div>
+        <div class="page-header-title">
+            <h4 class="page-title">Diagnósticos</h4>
+            <div style="text-align:right;">
+                <a href="{% url 'diagnosticoCreate' %}" class="btn btn-success waves-effect waves-light">+</a>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="page-content-wrapper">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr style="color:#1568f0">
+                            <th>Diagnóstico</th>
+                            <th>Resultado Asociado</th>
+                            <th>Fecha</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for diagnostico in diagnosticos_list %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'diagnosticoUpdate' diagnostico.id %}">
+                                    {{ diagnostico.diagnostico }}
+                                </a>
+                            </td>
+                            <td>{{ diagnostico.resultado.valor }} - {{ diagnostico.resultado.recomendaciones }}</td>
+                            <td>{{ diagnostico.fecha_diagnostico }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div style="text-align:center;">
+                        <a href="/" class="btn btn-primary waves-effect waves-light">Volver</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align:left; margin-top: 10px;">
+        <form action="{% url 'diagnosticoEmail' %}" method="get">
+            <button type="submit" class="btn btn-warning waves-effect waves-light">
+                Enviar Email
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

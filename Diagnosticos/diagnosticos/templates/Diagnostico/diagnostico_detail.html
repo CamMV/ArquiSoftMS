@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Actualizar Diagnóstico</h2>
+
+<form method="POST" action="{% url 'diagnosticoUpdate' diagnostico.id %}">
+    {% csrf_token %}
+
+    <label for="diagnostico">Nuevo Diagnóstico</label>
+    <input type="text" name="diagnostico" value="{{ diagnostico.diagnostico }}" required>
+
+    <br><br>
+
+    <button type="submit" class="btn btn-success">Actualizar</button>
+    <a href="{% url 'diagnosticoList' %}" class="btn btn-primary">Volver</a>
+</form>
+
+{% endblock %}
