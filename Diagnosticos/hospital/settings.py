@@ -57,7 +57,7 @@ ROOT_URLCONF = 'Diagnosticos.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'hospital', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Diagnosticos.wsgi.application'
+WSGI_APPLICATION = 'hospital.wsgi.application'
 
 MONGO_MAIN_DB = os.getenv('MONGO_MAIN_DB', 'diagnosticos_main_db')
 MONGO_SECONDARY_DB = os.getenv('MONGO_SECONDARY_DB', 'diagnosticos_secondary_db')
@@ -143,4 +143,5 @@ STATICFILES_DIRS = (
 )
 
 PATH_API_GATEWAY = "http://" + os.environ.get("KONG_HOST", "10.128.0.81") + ":" + os.environ.get("KONG_PORT", "8000")
-PATH_VAR = PATH_API_GATEWAY + "/diagnosticos"
+USER_PATH = PATH_API_GATEWAY + "/pacientes"
+EVENTS_PATH = PATH_API_GATEWAY + "/eventos"
