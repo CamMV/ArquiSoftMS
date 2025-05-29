@@ -6,9 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, Depends
 from typing import List
 
-db = get_db()
 
-async def get_pacientes(db: AsyncSession = Depends(get_db)) :
+async def get_pacientes(db: AsyncSession ) :
     pacientes = await db.execute(select(Paciente))
     list = pacientes.scalars().all()
     return list
