@@ -61,10 +61,7 @@ def intento_diagnostico(request, diagnostico_id):
 @require_http_methods(["GET"])
 def intentos_diagnosticos_list(request):
     intentos = IntentoDiagnostico.objects.all()
-    data = [{
-        "id": str(i.id),
-        "diagnostico": str(i.diagnostico.id),
-        "fecha_intento": i.fecha_intento.isoformat(),
-        "cambio": i.cambio
-    } for i in intentos]
-    return JsonResponse(data, safe=False)
+    return JsonResponse(
+        {"intentos": [intento.to_json() for intento in intentos]},
+        safe=False
+    )
