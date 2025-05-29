@@ -2,6 +2,7 @@ from fastapi import APIRouter, status, Body
 import logic.pacientes_logic as logic
 from models.schemas import PacienteCreate, PacienteRead
 from models.models import Paciente
+from typing import List
 
 router = APIRouter()
 ENDPOINT_NAME = "/pacientes"
@@ -9,7 +10,7 @@ ENDPOINT_NAME = "/pacientes"
 @router.get(
     "/",
     response_description="Lista de pacientes",
-    response_model=list[PacienteRead],
+    response_model=List[PacienteRead],
     status_code=status.HTTP_200_OK,
 )
 async def get_places():
