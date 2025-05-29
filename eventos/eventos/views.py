@@ -8,7 +8,6 @@ from hospital.settings import PATH_PACIENTES
 from .serializers import EventoSerializer
 
 # URL del microservicio de pacientes
-#TODO: Cambia esta URL por la del microservicio de pacientes 
 
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all()
