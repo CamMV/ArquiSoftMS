@@ -1,13 +1,25 @@
 from fastapi import APIRouter, status, Body, Depends
 import logic.pacientes_logic as logic
 from models.schemas import PacienteCreate, PacienteRead
-from models.models import Paciente
+from pathlib import Path
 from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from models.db import get_db
+from fastapi.responses import HTMLResponse
 
 router = APIRouter()
-ENDPOINT_NAME = "/home"
+TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
+
+@router.get(
+    "/home",
+    response_description="Página de inicio de Pacientes",
+    status_code=status.HTTP_200_OK,
+    response_class=HTMLResponse,
+)
+async def home():
+    html_file = TEMPLATES_DIR / "home.html"
+    return HTMLResponse(html_file.read_text(), status_code=status.HTTP_200_OK)
+
 
 @router.get(
     "/pacientes",
