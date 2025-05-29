@@ -1,8 +1,6 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import sessionmaker, declarative_base
 import os
-from models.models import Paciente  # Importa tus modelos aquí
-
 
 Base = declarative_base()
 
