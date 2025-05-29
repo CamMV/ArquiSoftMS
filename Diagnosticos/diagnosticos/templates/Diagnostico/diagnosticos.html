@@ -26,15 +26,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for diagnostico in diagnosticos_list %}
+                        {% for diagnostico in diagnosticos %}
                         <tr>
                             <td>
                                 <a href="{% url 'diagnostico_detail' diagnostico.id %}">
                                     {{ diagnostico.diagnostico }}
                                 </a>
                             </td>
-                            <td>{{ diagnostico.resultado.valor }} - {{ diagnostico.resultado.recomendaciones }}</td>
-                            <td>{{ diagnostico.fecha_diagnostico }}</td>
+                            <td>{{ diagnostico.resultado }}</td>
+                            <td>{{ diagnostico.fecha_diagnostico }} - {{diagnostico.version}}</td>
                         </tr>
                         {% endfor %}
                         </tbody>
