@@ -6,7 +6,7 @@
         <div class="page-header-title">
             <h4 class="page-title">Diagnósticos</h4>
             <div style="text-align:right;">
-                <a href="{% url 'diagnosticoCreate' %}" class="btn btn-success waves-effect waves-light">+</a>
+                <a href="{% url 'diagnostico_create' %}" class="btn btn-success waves-effect waves-light">+</a>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
                         {% for diagnostico in diagnosticos_list %}
                         <tr>
                             <td>
-                                <a href="{% url 'diagnosticoUpdate' diagnostico.id %}">
+                                <a href="{% url 'diagnostico_detail' diagnostico.id %}">
                                     {{ diagnostico.diagnostico }}
                                 </a>
                             </td>
