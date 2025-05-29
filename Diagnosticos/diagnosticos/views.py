@@ -3,7 +3,7 @@ from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Diagnostico, IntentoDiagnostico
-from mongoengine.fields import DateTimeField
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from mongoengine.errors import DoesNotExist
@@ -34,7 +34,7 @@ def diagnostico_create(request):
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
 
-        diagnostico = Diagnostico(nombre=nombre, descripcion=descripcion, fecha_diagnostico=DateTimeField.now(), version="1.0")
+        diagnostico = Diagnostico(nombre=nombre, descripcion=descripcion, fecha_diagnostico=datetime.now(), version="1.0")
         diagnostico.save()
         return redirect('diagnosticos_list')
     else:
