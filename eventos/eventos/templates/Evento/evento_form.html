@@ -1,15 +1,14 @@
-{# templates/Evento/evento_form.html #}
-{% extends "base.html" %}
-{% block title %}Crear Evento{% endblock %}
+<form method="post" action="{% url 'evento-list' %}">
+  {% csrf_token %}
+  {{ serializer.non_field_errors }}
 
-{% block content %}
-  <h1>Nuevo Evento</h1>
+  {% for field in serializer %}
+    <div class="form-group">
+      {{ field.label_tag }}
+      {{ field }}           {# esto ya es <input ...> #}
+      {{ field.errors }}
+    </div>
+  {% endfor %}
 
-  <form method="post" action="{% url 'evento-list' %}">
-    {% csrf_token %}
-    {# esto renderiza cada campo dentro de <p>…</p> #}
-    {{ serializer.as_p }}
-
-    <button type="submit" class="btn btn-primary">Crear</button>
-  </form>
-{% endblock %}
+  <button type="submit" class="btn btn-primary">Crear</button>
+</form>
