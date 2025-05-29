@@ -85,11 +85,11 @@ connect(
     db=MONGO_MAIN_DB,
     host=MONGO_MAIN_URI,
 )
-connect(
-    alias='secondary',
-    db=MONGO_SECONDARY_DB,
-    host=MONGO_SECONDARY_URI,
-)
+#connect(
+#    alias='secondary',
+#    db=MONGO_SECONDARY_DB,
+#    host=MONGO_SECONDARY_URI,
+#)
 
 
 # Password validation
