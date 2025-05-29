@@ -14,3 +14,4 @@ typing_extensions==4.12.2
 uvicorn==0.32.0
 sqlalchemy==2.0.41
 asyncpg==0.30.0
+jinja2==2.10.1

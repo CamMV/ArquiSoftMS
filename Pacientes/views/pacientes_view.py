@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Body, Depends
+from fastapi import APIRouter, status, Body, Depends, Request
 import logic.pacientes_logic as logic
 from models.schemas import PacienteCreate, PacienteRead
 from pathlib import Path
@@ -6,9 +6,11 @@ from typing import List
 from sqlalchemy.ext.asyncio import AsyncSession
 from models.db import get_db
 from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
+templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 @router.get(
     "/home",
@@ -24,11 +26,18 @@ async def home():
 @router.get(
     "/pacientes",
     response_description="Lista de pacientes",
-    response_model=List[PacienteRead],
     status_code=status.HTTP_200_OK,
+    response_class=HTMLResponse,
 )
-async def get_pacientes(db: AsyncSession = Depends(get_db)):
-    return await logic.get_pacientes(db)
+async def get_pacientes(request: Request, db: AsyncSession = Depends(get_db)):
+    lista = await logic.get_pacientes(db)
+    return templates.TemplateResponse(
+        "pacientes.html",
+        {
+            "request": request,
+            "pacientes": lista,
+        }
+    )
 
 
 @router.get(

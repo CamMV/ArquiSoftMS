@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacientes</title>
+    <link 
+      rel="stylesheet" 
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    >
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/home">Hospital App</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="/eventos/">Eventos</a></li>
+          <li class="nav-item active"><a class="nav-link" href="/pacientes/">Pacientes</a></li>
+          <li class="nav-item"><a class="nav-link" href="/diagnosticos/">Diagnósticos</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container mt-4">
+      <h2>Lista de Pacientes</h2>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Ciudad</th>
+            <!-- Añade aquí las columnas que necesites -->
+          </tr>
+        </thead>
+        <tbody>
+        {% for p in pacientes %}
+          <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.edad }}</td>
+            <td>{{ p.ciudad }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4">No hay pacientes registrados.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </main>
+
+    <footer class="bg-light text-center py-3" style="position: fixed; width: 100%; bottom: 0;">
+      <div>ISIS-2503 Arquitectura y Diseño de Software — Universidad de los Andes</div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  </body>
+</html>
