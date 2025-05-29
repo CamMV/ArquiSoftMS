@@ -61,11 +61,11 @@ async def create_paciente_submit(
     request: Request,
     nombre: str = Form(...),
     edad: int = Form(...),
-    genero: str = Form(...),
+    ciudad: str = Form(...),
     db: AsyncSession = Depends(get_db),
 ):
     # Crea el schema y llama a la lógica
-    nuevo = PacienteCreate(nombre=nombre, edad=edad, genero=genero)
+    nuevo = PacienteCreate(nombre=nombre, edad=edad, ciudad=ciudad)
     await logic.create_paciente(paciente=nuevo, db=db)
     # Redirige de vuelta a la lista
     return RedirectResponse(url="/pacientes", status_code=status.HTTP_303_SEE_OTHER)
