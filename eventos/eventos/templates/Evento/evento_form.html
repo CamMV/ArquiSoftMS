@@ -5,6 +5,11 @@
     {% csrf_token %}
     <br>
     <div class="form-group">
+        <label for="nombre_paciente">Nombre Paciente</label>
+        <input type="text" name="nombre_paciente" id="nombre_paciente" class="form-control" required>
+    </div>
+
+    <div class="form-group">
         <label for="tipo">tipo</label>
         <input type="text" name="tipo" id="tipo" class="form-control" required>
     </div>
