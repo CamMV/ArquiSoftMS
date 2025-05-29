@@ -39,7 +39,7 @@ def diagnostico_create(request):
         diagnostico.save()
         return redirect('diagnosticos_list')
     else:
-        return render(request, 'Diagnostico/diagnostico_create.html', {
+        return render(request, 'Diagnostico/diagnosticoCreate.html', {
             "diagnosticos": Diagnostico.objects.all()
         })
 
