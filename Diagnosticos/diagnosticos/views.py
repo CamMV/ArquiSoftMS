@@ -50,7 +50,7 @@ def intento_diagnostico(request, diagnostico_id):
     cambio = request.POST.get('diagnostico')  # usa el nombre del campo en el formulario
     intento = IntentoDiagnostico(
         diagnostico=diagnostico,
-        fecha_intento=timezone.now(),
+        fecha_intento=datetime.now(),
         cambio=cambio
     )
     intento.save()
