@@ -43,7 +43,10 @@ def diagnostico_create(request):
 @require_http_methods(["PUT"])
 def intento_diagnostico(request, diagnostico_id):
     if request.method == "PUT":
-        diagnostico = get_object_or_404(Diagnostico, id=diagnostico_id)
+        try:
+            diagnostico = Diagnostico.objects.get(id=diagnostico_id)
+        except DoesNotExist:
+            return JsonResponse({"error": "Diagnostico not found"}, status=404)
         data = json.loads(request.body)
         intento = IntentoDiagnostico(
             diagnostico=diagnostico,
