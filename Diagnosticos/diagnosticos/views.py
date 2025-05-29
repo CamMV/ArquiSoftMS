@@ -3,9 +3,9 @@ from django.http import JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Diagnostico, IntentoDiagnostico
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+from mongoengine.errors import DoesNotExist
 
 @require_http_methods(["GET"])
 def diagnosticos_list(request):
@@ -17,7 +17,10 @@ def diagnosticos_list(request):
 
 @require_http_methods(["GET"])
 def diagnostico_detail(request, diagnostico_id):
-    diagnostico = get_object_or_404(Diagnostico, id=diagnostico_id)
+    try:
+        diagnostico = Diagnostico.objects.get(id=diagnostico_id)
+    except DoesNotExist:
+        raise Http404("Diagnostico not found")
     return render(request, 'Diagnostico/diagnostico_detail.html', {
         "diagnostico": diagnostico
     })
