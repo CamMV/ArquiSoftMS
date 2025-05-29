@@ -1,5 +1,4 @@
 _format_version: "2.1"
-_transform: true
 
 services:
 - name: diagnosticos
@@ -8,7 +7,7 @@ services:
   - name: diagnosticos-route
     paths:
     - /diagnosticos
-    strip_path: true
+    strip_path: false
 
 - name: eventos
   url: http://10.128.0.91:8080
@@ -16,15 +15,16 @@ services:
   - name: eventos-route
     paths:
     - /eventos
-    strip_path: true
+    strip_path: false
 
 - name: pacientes
   url: http://10.128.0.92:8080
   routes:
   - name: pacientes-route
     paths:
+    - /home
     - /pacientes
-    strip_path: true
+    strip_path: false
 
 - name: resultados
   url: http://10.128.0.93:8080
@@ -32,4 +32,4 @@ services:
   - name: resultados-route
     paths:
     - /resultados
-    strip_path: true
+    strip_path: false

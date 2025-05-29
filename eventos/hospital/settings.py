@@ -82,7 +82,7 @@ DATABASES = {
         'USER': os.environ.get("EVENTOS_DB_USER", "eventos_user"),
         'PASSWORD': os.environ.get("EVENTOS_DB_PASSWORD", "isis2503"),
         'HOST': os.environ.get("EVENTOS_DB_HOST", "10.128.0.81"),
-        'PORT': os.environ.get("EVENTOS_DB_PORT", "5432")
+        'PORT': os.environ.get("EVENTOS_DB_PORT", "5433")
     }
 }
 
@@ -140,4 +140,4 @@ STATICFILES_DIRS = (
 )
 
 PATH_API_GATEWAY = "http://" + os.environ.get("KONG_HOST", "10.128.0.81") + ":" + os.environ.get("KONG_PORT", "8000")
-PATH_VAR = PATH_API_GATEWAY + "/variables"
+PATH_PACIENTES = PATH_API_GATEWAY + "/pacientes"
