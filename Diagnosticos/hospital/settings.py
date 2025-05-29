@@ -85,7 +85,9 @@ connect(
     alias='main',
     db=MONGO_MAIN_DB,
     host=MONGO_MAIN_HOST,
-    port=MONGO_MAIN_PORT
+    port=MONGO_MAIN_PORT,
+    username='admin',
+    password='isis2503'
 )
 #connect(
 #    alias='secondary',
