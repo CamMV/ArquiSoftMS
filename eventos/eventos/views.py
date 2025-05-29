@@ -14,6 +14,13 @@ class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all()
     serializer_class = EventoSerializer
 
+    def list(self, request, *args, **kwargs):
+        eventos = self.get_queryset()
+        if request.accepted_renderer.format == 'html':
+            serializer = self.get_serializer(eventos, many=True)
+            return Response(serializer.data, template_name='eventos/eventos.html')
+        return super().list(request, *args, **kwargs)
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         paciente_data = self.get_paciente(instance.paciente_id)
