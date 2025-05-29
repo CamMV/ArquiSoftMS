@@ -49,7 +49,7 @@ class EventoViewSet(viewsets.ModelViewSet):
                 template_name='Evento/evento_form.html',
                 status= status.HTTP_201_CREATED
                 )
-        return super().create(request, *args, **kwargs)
+        return redirect('evento-list')
     
     def get_paciente(self, paciente_id):
         try:
