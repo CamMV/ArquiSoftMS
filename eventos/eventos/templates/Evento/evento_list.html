@@ -1,0 +1,29 @@
+{# templates/Evento/evento_list.html #}
+{% extends "base.html" %}
+{% block title %}Eventos{% endblock %}
+
+{% block content %}
+<div class="page-header-title">
+  <h4>Eventos</h4>
+  <a class="btn btn-success" href="{% url 'evento-nuevo' %}">+ Nuevo</a>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr><th>Fecha</th><th>Nombre</th><th>Acciones</th></tr>
+  </thead>
+  <tbody>
+    {% for evento in eventos %}
+    <tr>
+      <td>{{ evento.fecha }}</td>
+      <td>{{ evento.nombre }}</td>
+      <td>
+        <a href="{% url 'evento-detail' evento.pk %}">Ver</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3">No hay eventos.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

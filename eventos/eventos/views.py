@@ -18,10 +18,9 @@ class EventoViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         if request.accepted_renderer.format == 'html':
-            eventos = self.get_queryset()
             return Response(
-                {'eventos': eventos}, 
-                template_name='Evento/eventos.html'
+                {'eventos': self.queryset},
+                template_name='Evento/evento_list.html'
             )
         return super().list(request, *args, **kwargs)
 
@@ -35,28 +34,21 @@ class EventoViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'], renderer_classes=[TemplateHTMLRenderer])
     def nuevo(self, request):
-        # le pasamos un serializer vacío al template
         return Response(
             {'serializer': EventoSerializer()},
-            template_name='Evento/eventoCreate.html'
+            template_name='Evento/evento_form.html'
         )
 
-    # ——— creación (POST) ———
     def create(self, request, *args, **kwargs):
-        # si viene de HTML, procesamos el form
         if request.accepted_renderer.format == 'html':
             serializer = EventoSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                # una vez creado, redirigimos al listado
-                return redirect('Evento/eventos.html')
-            # si hay errores, re-renderizamos el form con ellos
-            return Response(
+                return Response(
                 {'serializer': serializer},
-                template_name='Evento/eventoCreate.html',
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        # para JSON delegamos al comportamiento por defecto
+                template_name='Evento/evento_form.html',
+                status= status.HTTP_201_CREATED
+                )
         return super().create(request, *args, **kwargs)
     
     def get_paciente(self, paciente_id):
