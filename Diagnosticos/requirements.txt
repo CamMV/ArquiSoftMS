@@ -1,4 +1,4 @@
-Django==2.1.5
 psycopg2-binary==2.8.6
 requests
 mongoengine==0.29.1
+Django==2.1.5
