@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from models.db import get_db
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi import Form
+from fastapi.responses import RedirectResponse
 
 router = APIRouter()
 TEMPLATES_DIR = Path(__file__).parent.parent / "templates"
@@ -75,3 +77,32 @@ async def update_paciente(paciente_id: int, paciente: PacienteCreate = Body(...)
 async def delete_paciente(paciente_id: int, db: AsyncSession = Depends(get_db)):
     await logic.delete_paciente(paciente_id=paciente_id, db=db)
     return {"detail": "Paciente eliminado exitosamente"}
+
+@router.get(
+    "/pacientes/crear",
+    response_class=HTMLResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def create_paciente_form(request: Request):
+    return templates.TemplateResponse(
+        "pacientes_create.html",
+        {"request": request}
+    )
+    
+@router.post(
+    "/pacientes/crear",
+    status_code=status.HTTP_303_SEE_OTHER,  # para redirigir tras POST
+    response_class=RedirectResponse,
+)
+async def create_paciente_submit(
+    request: Request,
+    nombre: str = Form(...),
+    edad: int = Form(...),
+    genero: str = Form(...),
+    db: AsyncSession = Depends(get_db),
+):
+    # Crea el schema y llama a la lógica
+    nuevo = PacienteCreate(nombre=nombre, edad=edad, genero=genero)
+    await logic.create_paciente(paciente=nuevo, db=db)
+    # Redirige de vuelta a la lista
+    return RedirectResponse(url="/pacientes", status_code=status.HTTP_303_SEE_OTHER)
