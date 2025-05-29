@@ -40,16 +40,16 @@ class EventoViewSet(viewsets.ModelViewSet):
         )
     
     def create(self, request, *args, **kwargs):
-        if request.accepted_renderer.format == 'html':
-            serializer = EventoSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(
-                {'serializer': serializer},
-                template_name='Evento/evento_form.html',
-                status= status.HTTP_201_CREATED
-                )
-        return redirect('evento-list')
+        serializer = EventoSerializer(data=request.POST)
+        if serializer.is_valid():
+            serializer.save()
+            return redirect('evento-list')  # Redirige después de guardar
+        return Response(
+            {'serializer': serializer},
+            template_name='Evento/evento_form.html',
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
     
     def get_paciente(self, paciente_id):
         try:
