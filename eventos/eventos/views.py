@@ -39,7 +39,6 @@ class EventoViewSet(viewsets.ModelViewSet):
             template_name='Evento/evento_form.html'
         )
     
-    @action(detail=True, methods=['post'], renderer_classes=[TemplateHTMLRenderer])
     def create(self, request, *args, **kwargs):
         if request.accepted_renderer.format == 'html':
             serializer = EventoSerializer(data=request.data)
