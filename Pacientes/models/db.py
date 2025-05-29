@@ -6,7 +6,7 @@ Base = declarative_base()
 
 DATABASE_URL = os.environ.get(
     "DATABASE_URL",
-    "postgresql+asyncpg://pacientes_user:isis2503@10.128.0.81:5433/pacientes_db"
+    "postgresql+asyncpg://pacientes_user:isis2503@10.128.0.81:5432/pacientes_db"
 )
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True, pool_recycle=3600)
