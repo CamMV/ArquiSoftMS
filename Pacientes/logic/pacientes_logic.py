@@ -12,21 +12,21 @@ async def get_pacientes(db: AsyncSession ) :
     list = pacientes.scalars().all()
     return list
 
-async def get_paciente(paciente_id: int, db: AsyncSession = db):
+async def get_paciente(paciente_id: int, db: AsyncSession ):
     paciente = await db.execute(select(Paciente).where(Paciente.id == paciente_id))
     paciente = paciente.scalar_one_or_none()
     if not paciente:
         raise HTTPException(status_code=404, detail="Paciente no encontrado")
     return paciente
 
-async def create_paciente(paciente: PacienteCreate, db: AsyncSession = db):
+async def create_paciente(paciente: PacienteCreate, db: AsyncSession ):
     nuevo_paciente = Paciente(**paciente.dict())
     db.add(nuevo_paciente)
     await db.commit()
     await db.refresh(nuevo_paciente)
     return nuevo_paciente
 
-async def update_paciente(paciente_id: int, paciente: PacienteCreate, db: AsyncSession = db):
+async def update_paciente(paciente_id: int, paciente: PacienteCreate, db: AsyncSession ):
     paciente_db = await db.execute(select(Paciente).where(Paciente.id == paciente_id))
     paciente_db = paciente_db.scalar_one_or_none()
     if not paciente_db:
@@ -39,7 +39,7 @@ async def update_paciente(paciente_id: int, paciente: PacienteCreate, db: AsyncS
     await db.refresh(paciente_db)
     return paciente_db
 
-async def delete_paciente(paciente_id: int, db: AsyncSession = db):
+async def delete_paciente(paciente_id: int, db: AsyncSession ):
     paciente_db = await db.execute(select(Paciente).where(Paciente.id == paciente_id))
     paciente_db = paciente_db.scalar_one_or_none()
     if not paciente_db:

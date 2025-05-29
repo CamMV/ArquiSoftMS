@@ -25,8 +25,8 @@ async def get_pacientes(db: AsyncSession = Depends(get_db)):
     response_model=PacienteRead,
     status_code=status.HTTP_200_OK,
 )
-async def get_paciente(paciente_id: int):
-    return await logic.get_paciente(paciente_id=paciente_id)
+async def get_paciente(paciente_id: int, db: AsyncSession = Depends(get_db)):
+    return await logic.get_paciente(paciente_id=paciente_id, db=db)
 
 @router.post(
     "/pacientes",
@@ -34,8 +34,8 @@ async def get_paciente(paciente_id: int):
     response_model=PacienteRead,
     status_code=status.HTTP_201_CREATED,
 )
-async def create_paciente(paciente: PacienteCreate = Body(...)):
-    return await logic.create_paciente(paciente=paciente)
+async def create_paciente(paciente: PacienteCreate = Body(...), db: AsyncSession = Depends(get_db)):
+    return await logic.create_paciente(paciente=paciente, db=db)
 
 @router.put(
     "/pacientes/{paciente_id}",
@@ -43,14 +43,14 @@ async def create_paciente(paciente: PacienteCreate = Body(...)):
     response_model=PacienteRead,
     status_code=status.HTTP_200_OK,
 )
-async def update_paciente(paciente_id: int, paciente: PacienteCreate = Body(...)):
-    return await logic.update_paciente(paciente_id=paciente_id, paciente=paciente)
+async def update_paciente(paciente_id: int, paciente: PacienteCreate = Body(...), db: AsyncSession = Depends(get_db)):
+    return await logic.update_paciente(paciente_id=paciente_id, paciente=paciente, db=db)
 
 @router.delete(
     "/pacientes/{paciente_id}",
     response_description="Eliminar un paciente",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-async def delete_paciente(paciente_id: int):
-    await logic.delete_paciente(paciente_id=paciente_id)
+async def delete_paciente(paciente_id: int, db: AsyncSession = Depends(get_db)):
+    await logic.delete_paciente(paciente_id=paciente_id, db=db)
     return {"detail": "Paciente eliminado exitosamente"}
